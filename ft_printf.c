@@ -5,66 +5,155 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkannan <nkannan@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/02 15:42:31 by nkannan           #+#    #+#             */
-/*   Updated: 2023/07/02 16:34:00 by nkannan          ###   ########.fr       */
+/*   Created: 2024/01/30 09:45:44 by nkannan           #+#    #+#             */
+/*   Updated: 2024/01/30 11:51:06 by nkannan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_formats(const char *format, va_list args)
-{
-	int	len;
-
-	len = 0;
-	if (*format == 'c')
-		len += ft_format_c(args);
-	else if (*format == 's')
-		len += ft_format_s(args);
-	else if (*format == 'p')
-		len += ft_format_p(args);
-	else if (*format == 'd' || *format == 'i')
-		len += ft_format_d(args);
-	else if (*format == 'u')
-		len += ft_format_u(args);
-	else if (*format == 'x')
-		len += ft_format_x(args);
-	else if (*format == 'X')
-		len += ft_format_x_cap(args);
-	else if (*format == '%')
-		len += ft_format_percent();
-	return (len);
-}
-
-int	ft_vprintf(const char *format, va_list args)
-{
-	int	len;
-
-	len = 0;
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			len += ft_formats(format, args);
-		}
-		else
-		{
-			ft_putchar_fd(*format, 1);
-			len++;
-		}
-		format++;
-	}
-	return (len);
-}
-
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
-	int		print_len;
+	va_list	ap;
+	int		i;
+	int		count;
 
-	va_start(args, format);
-	print_len = ft_vprintf(format, args);
-	va_end(args);
-	return (print_len);
+	i = 0;
+	count = 0;
+	va_start(ap, format);
+	while (format[i])
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			count += ft_format(ap, format[i]);
+		}
+		else
+			count += my_put_char(format[i]);
+		i++;
+	}
+	va_end(ap);
+	return (count);
+}
+
+int	ft_format(va_list ap, const char format)
+{
+	if (format == 'c')
+		return (my_put_char(va_arg(ap, int)));
+	else if (format == 's')
+		return (my_put_str(va_arg(ap, char *)));
+	else if (format == 'd' || format == 'i')
+		return (my_put_nbr(va_arg(ap, int)));
+	else if (format == 'u')
+		return (my_put_unsigned_nbr(va_arg(ap, unsigned int)));
+	else if (format == 'x')
+		return (my_put_hex(va_arg(ap, unsigned int), 0));
+	else if (format == 'X')
+		return (my_put_hex(va_arg(ap, unsigned int), 1));
+	else if (format == 'p')
+		return (my_put_pointer(va_arg(ap, void *)));
+	else if (format == '%')
+		return (my_put_percent());
+	else
+		return (0);
+}
+
+int	my_put_char(char c)
+{
+	write(1, &c, 1);
+	return (1);
+}
+
+int	my_put_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (my_put_str("(null)"));
+	while (str[i])
+	{
+		my_put_char(str[i]);
+		i++;
+	}
+	return (i);
+}
+
+int	my_put_nbr(int num)
+{
+	int	count;
+
+	count = 0;
+	if (num == INT_MIN)
+		return (my_put_str("-2147483648"));
+	if (num < 0)
+	{
+		my_put_char('-');
+		num *= -1;
+		count++;
+	}
+	if (num >= 10)
+	{
+		count += my_put_nbr(num / 10);
+		count += my_put_nbr(num % 10);
+	}
+	else
+		count += my_put_char(num + '0');
+	return (count);
+}
+
+int	my_put_unsigned_nbr(unsigned int num)
+{
+	int	count;
+
+	count = 0;
+	if (num >= 10)
+	{
+		count += my_put_unsigned_nbr(num / 10);
+		count += my_put_unsigned_nbr(num % 10);
+	}
+	else
+		count += my_put_char(num + '0');
+	return (count);
+}
+
+int	my_put_hex(unsigned long num, int cap)
+{
+	int	count;
+
+	count = 0;
+	if (num >= 16)
+	{
+		count += my_put_hex(num / 16, cap);
+		count += my_put_hex(num % 16, cap);
+	}
+	else
+	{
+		if (num < 10)
+			count += my_put_char(num + '0');
+		else
+		{
+			if (cap == 0)
+				count += my_put_char(HEXADECIMAL[num % 16]);
+			else
+				count += my_put_char(HEXADECIMAL_CAP[num % 16]);
+		}
+	}
+	return (count);
+}
+
+int	my_put_pointer(void *ptr)
+{
+	int	count;
+
+	count = 0;
+	count += my_put_str("0x");
+	count += my_put_hex((unsigned long)ptr, 0);
+	return (count);
+}
+
+int	my_put_percent(void)
+{
+	my_put_char('%');
+	return (1);
 }

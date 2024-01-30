@@ -6,7 +6,7 @@
 /*   By: nkannan <nkannan@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:00:36 by nkannan           #+#    #+#             */
-/*   Updated: 2023/07/02 16:03:12 by nkannan          ###   ########.fr       */
+/*   Updated: 2024/01/30 10:27:51 by nkannan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,16 @@
 # define HEXADECIMAL "0123456789abcdef"
 # define HEXADECIMAL_CAP "0123456789ABCDEF"
 # define DECIMAL "0123456789"
+
+int		ft_printf(const char *format, ...);
+int		ft_format(va_list ap, const char format);
+int		my_put_char(char c);
+int		my_put_str(char *str);
+int		my_put_nbr(int num);
+int		my_put_unsigned_nbr(unsigned int num);
+int		my_put_hex(unsigned long num, int cap);
+// int		my_put_pointer(unsigned long num);
+int		my_put_pointer(void *ptr);
+int		my_put_percent(void);
 
 #endif
