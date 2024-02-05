@@ -6,13 +6,13 @@
 #    By: nkannan <nkannan@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/02 15:39:14 by nkannan           #+#    #+#              #
-#    Updated: 2024/01/30 11:22:47 by nkannan          ###   ########.fr        #
+#    Updated: 2024/02/06 01:44:44 by nkannan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRCS = ft_printf.c
+SRCS = ft_printf.c ft_printf_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
