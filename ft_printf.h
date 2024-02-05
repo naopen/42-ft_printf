@@ -6,7 +6,7 @@
 /*   By: nkannan <nkannan@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:00:36 by nkannan           #+#    #+#             */
-/*   Updated: 2024/02/06 02:07:48 by nkannan          ###   ########.fr       */
+/*   Updated: 2024/02/06 03:22:24 by nkannan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # define HEXADECIMAL "0123456789abcdef"
 # define HEXADECIMAL_CAP "0123456789ABCDEF"
-# define DECIMAL "0123456789"
 
 int		ft_printf(const char *format, ...);
 int		ft_format(va_list ap, const char format);
