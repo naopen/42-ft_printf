@@ -6,14 +6,13 @@
 /*   By: nkannan <nkannan@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:00:36 by nkannan           #+#    #+#             */
-/*   Updated: 2024/02/06 01:54:08 by nkannan          ###   ########.fr       */
+/*   Updated: 2024/02/06 02:07:48 by nkannan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include <inttypes.h>
 # include <limits.h>
 # include <stdarg.h>
 # include <unistd.h>
